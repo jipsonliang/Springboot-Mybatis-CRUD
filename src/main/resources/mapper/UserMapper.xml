@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.mybatisdemo1.dao.UserDao">
+    <select id="getAllUser" resultType="com.example.mybatisdemo1.domin.User" >
+        SELECT * FROM userinfo;
+    </select>
+
+    <insert id="insert" parameterType="com.example.mybatisdemo1.domin.User" useGeneratedKeys="true" keyProperty="userId">
+        insert into userinfo (id,userName,age,sex) values (#{id},#{userName},#{age},#{sex})
+    </insert>
+
+    <insert id="delete" parameterType="com.example.mybatisdemo1.domin.User" useGeneratedKeys="true" keyProperty="userId">
+        delete from userinfo where id = #{id}
+    </insert>
+
+    <insert id="update" parameterType="com.example.mybatisdemo1.domin.User" useGeneratedKeys="true" keyProperty="userId">
+        update userinfo set id=#{id},userName=#{userName},age=#{age},sex=#{sex} where id=#{id}
+    </insert>
+
+    <insert id="updatebyid" parameterType="com.example.mybatisdemo1.domin.User" useGeneratedKeys="true" keyProperty="userId">
+        update userinfo set id=#{id},userName=#{userName},age=#{age},sex=#{sex} where id=#{id}
+    </insert>
+
+</mapper>
