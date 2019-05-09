@@ -5,19 +5,19 @@
         SELECT * FROM userinfo;
     </select>
 
-    <insert id="insert" parameterType="com.example.mybatisdemo1.domin.User" useGeneratedKeys="true" keyProperty="userId">
-        insert into userinfo (id,userName,age,sex) values (#{id},#{userName},#{age},#{sex})
+    <insert id="insert" parameterType="com.example.mybatisdemo1.domin.User" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+        insert into userinfo (userName,age,sex) values (#{userName},#{age},#{sex})
     </insert>
 
-    <insert id="delete" parameterType="com.example.mybatisdemo1.domin.User" useGeneratedKeys="true" keyProperty="userId">
+    <insert id="delete" parameterType="com.example.mybatisdemo1.domin.User" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
         delete from userinfo where id = #{id}
     </insert>
 
-    <insert id="update" parameterType="com.example.mybatisdemo1.domin.User" useGeneratedKeys="true" keyProperty="userId">
+    <insert id="update" parameterType="com.example.mybatisdemo1.domin.User">
         update userinfo set id=#{id},userName=#{userName},age=#{age},sex=#{sex} where id=#{id}
     </insert>
 
-    <insert id="updatebyid" parameterType="com.example.mybatisdemo1.domin.User" useGeneratedKeys="true" keyProperty="userId">
+    <insert id="updateById" parameterType="com.example.mybatisdemo1.domin.User" >
         update userinfo set id=#{id},userName=#{userName},age=#{age},sex=#{sex} where id=#{id}
     </insert>
 

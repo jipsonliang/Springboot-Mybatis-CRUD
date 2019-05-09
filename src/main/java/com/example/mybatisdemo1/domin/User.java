@@ -6,16 +6,16 @@ package com.example.mybatisdemo1.domin;
  */
 
 public class User {
-    public String id;
+    public Long id;
     public String userName;
     public String age;
     public String sex;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

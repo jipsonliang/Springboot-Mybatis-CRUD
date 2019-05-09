@@ -1,6 +1,7 @@
 package com.example.mybatisdemo1.dao;
 
 import com.example.mybatisdemo1.domin.User;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -11,8 +12,9 @@ import java.util.List;
 public interface UserDao {
     List<User> getAllUser();
     void insert(User user);
-    void delete(String id);
+    void delete(Long id);
     void update(User user);
-    void updatebyid(String id);
+    void updateById(@Param("id") Long id, @Param("userName") String userName, @Param("age") String age, @Param("sex") String sex);
+
 
 }

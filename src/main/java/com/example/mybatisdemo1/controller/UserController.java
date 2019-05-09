@@ -25,7 +25,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/insert")
-    public void insert(@Param("id") String id,
+    public void insert(@Param("id") Long id,
                        @Param("username") String userName,
                        @Param("age") String age,
                        @Param("sex") String sex){
@@ -37,7 +37,7 @@ public class UserController {
         userService.insert(user);
     }
     @PostMapping(value = "/delete")
-    public void delete(String id){
+    public void delete(Long id){
         userService.delete(id);
     }
     @PostMapping(value = "/update")
@@ -45,8 +45,8 @@ public class UserController {
         userService.update(user);
     }
 
-    @PostMapping(value = "/updatebyid")
-    public void update(String id){
-        userService.updatebyid(id);
+    @PostMapping(value = "/updateById")
+    public void updateById(@Param("id") Long id, @Param("userName") String userName, @Param("age") String age, @Param("sex") String sex){
+        userService.updateById(id, userName, age, sex);
     }
 }
