@@ -1,24 +1,43 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.example.mybatisdemo1.dao.UserDao">
-    <select id="getAllUser" resultType="com.example.mybatisdemo1.domin.User" >
-        SELECT * FROM userinfo;
+<mapper namespace="com.example.mybatisdemo1.dao.UserInfoDao">
+    <!--getAllUser分页查询注意，如果SELECT语句中有末尾的分号，在查询是会报错，需要将末尾的分号去掉-->
+    <select id="getAllUser" resultType="com.example.mybatisdemo1.domin.UserInfo" >
+        SELECT * FROM UserInfo
     </select>
 
-    <insert id="insert" parameterType="com.example.mybatisdemo1.domin.User" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
-        insert into userinfo (userName,age,sex) values (#{userName},#{age},#{sex})
+    <select id="getOneUser" resultType="com.example.mybatisdemo1.domin.UserInfo" >
+        SELECT * FROM UserInfo where userInfoId=#{userInfoId};
+    </select>
+    <!--注意：拼接语句注意末尾不要有不必要的分号-->
+    <select id="getUserByDynamicCondition" resultType="com.example.mybatisdemo1.domin.UserInfo" >
+        SELECT * FROM UserInfo
+        WHERE 1=1
+        <if test="userName != null">
+            AND userName like #{userName}
+        </if>
+        <if test="age !=null">
+            AND age=#{age}
+        </if>
+        <if test="sex !=null">
+            AND sex=#{sex}
+        </if>
+    </select>
+
+    <insert id="insert" parameterType="com.example.mybatisdemo1.domin.UserInfo" keyColumn="userInfoId" keyProperty="userInfoId" useGeneratedKeys="true">
+        insert into UserInfo (userName,age,sex) values (#{userName},#{age},#{sex})
     </insert>
 
-    <insert id="delete" parameterType="com.example.mybatisdemo1.domin.User" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
-        delete from userinfo where id = #{id}
-    </insert>
+    <delete id="delete" parameterType="com.example.mybatisdemo1.domin.UserInfo">
+        delete from UserInfo where userInfoId = #{userInfoId}
+    </delete>
 
-    <insert id="update" parameterType="com.example.mybatisdemo1.domin.User">
-        update userinfo set id=#{id},userName=#{userName},age=#{age},sex=#{sex} where id=#{id}
-    </insert>
+    <update id="update" parameterType="com.example.mybatisdemo1.domin.UserInfo">
+        update UserInfo set userInfoId=#{userInfoId},userName=#{userName},age=#{age},sex=#{sex} where userInfoId=#{userInfoId}
+    </update>
 
-    <insert id="updateById" parameterType="com.example.mybatisdemo1.domin.User" >
-        update userinfo set id=#{id},userName=#{userName},age=#{age},sex=#{sex} where id=#{id}
-    </insert>
+    <update id="updateById" parameterType="com.example.mybatisdemo1.domin.UserInfo" >
+        update UserInfo set userInfoId=#{userInfoId},userName=#{userName},age=#{age},sex=#{sex} where userInfoId=#{userInfoId}
+    </update>
 
 </mapper>

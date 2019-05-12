@@ -5,48 +5,55 @@ package com.example.mybatisdemo1.controller;
  * create 2019-04-15-20:28
  */
 
-import com.example.mybatisdemo1.domin.User;
+import com.example.mybatisdemo1.domin.UserInfo;
 import com.example.mybatisdemo1.service.UserService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 public class UserController {
     @Autowired
     UserService userService;
 
+    /**
+     * description： 设置使用分页
+     * @param page
+     * @param size
+     * @return
+     */
     @PostMapping(value = "/getAllUser")
-    public List<User> getAllUser(){
-        return userService.getAllUser();
+    public Object getAllUser(@RequestParam(value = "page",defaultValue = "1")int page,
+                                     @RequestParam(value = "size",defaultValue = "10")int size){
+        return userService.getAllUser1(page, size);
     }
 
     @PostMapping(value = "/insert")
-    public void insert(@Param("id") Long id,
+    public int insert(@Param("userInfoId") Long userInfoId,
                        @Param("username") String userName,
                        @Param("age") String age,
                        @Param("sex") String sex){
-        User user = new User();
-        user.setId(id);
-        user.setUserName(userName);
-        user.setAge(age);
-        user.setSex(sex);
-        userService.insert(user);
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUserInfoId(userInfoId);
+        userInfo.setUserName(userName);
+        userInfo.setAge(age);
+        userInfo.setSex(sex);
+        return userService.insert(userInfo);
+
     }
     @PostMapping(value = "/delete")
-    public void delete(Long id){
-        userService.delete(id);
+    public int delete(Long userInfoId){
+        return userService.delete(userInfoId);
     }
     @PostMapping(value = "/update")
-    public void update(User user){
-        userService.update(user);
+    public int update(UserInfo userInfo){
+        return userService.update(userInfo);
     }
 
     @PostMapping(value = "/updateById")
-    public void updateById(@Param("id") Long id, @Param("userName") String userName, @Param("age") String age, @Param("sex") String sex){
-        userService.updateById(id, userName, age, sex);
+    public int updateById(@Param("userInfoId") Long userInfoId, @Param("userName") String userName, @Param("age") String age, @Param("sex") String sex){
+        return userService.updateById(userInfoId, userName, age, sex);
     }
 }

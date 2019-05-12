@@ -1,8 +1,10 @@
 package com.example.mybatisdemo1.mapper;
 
-import com.example.mybatisdemo1.dao.UserDao;
-import com.example.mybatisdemo1.domin.User;
+import com.example.mybatisdemo1.dao.UserInfoDao;
+import com.example.mybatisdemo1.domin.UserInfo;
 import com.example.mybatisdemo1.service.UserService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
@@ -16,31 +18,55 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
     @Resource
-    UserDao userDao;
+    UserInfoDao userInfoDao;
 
     @Override
-    public List<User> getAllUser() {
-        return userDao.getAllUser();
+    public Object getAllUser1(int page, int size) {
+
+        PageHelper.startPage(page, size);
+        List<UserInfo> userList = userInfoDao.getAllUser();
+        PageInfo<UserInfo> pageInfo = new PageInfo<>(userList);
+        return pageInfo;
+
+    }
+
+
+    @Override
+    public UserInfo getOneUser(Long userInfoId){
+        return userInfoDao.getOneUser(userInfoId);
     }
 
     @Override
-    public void insert(User user) {
-        userDao.insert(user);
+    public List<UserInfo> getUserByDynamicCondition(UserInfo userInfo){
+        return userInfoDao.getUserByDynamicCondition(userInfo);
     }
 
     @Override
-    public void delete(Long id) {
-        userDao.delete(id);
+    public Object getUserByDynamicCondition1(UserInfo userInfo,int page, int size){
+        PageHelper.startPage(page, size);
+        List<UserInfo> userList = userInfoDao.getUserByDynamicCondition(userInfo);;
+        PageInfo<UserInfo> pageInfo = new PageInfo<>(userList);
+        return pageInfo;
     }
 
     @Override
-    public void update(User user) {
-        userDao.update(user);
+    public int insert(UserInfo userInfo) {
+        return userInfoDao.insert(userInfo);
     }
 
     @Override
-    public void updateById(@Param("id") Long id, @Param("userName") String userName, @Param("age") String age, @Param("sex") String sex) {
-        userDao.updateById(id, userName, age, sex);
+    public int delete(Long userInfoId) {
+        return userInfoDao.delete(userInfoId);
+    }
+
+    @Override
+    public int update(UserInfo userInfo) {
+        return userInfoDao.update(userInfo);
+    }
+
+    @Override
+    public int updateById(@Param("userInfoId") Long userInfoId, @Param("userName") String userName, @Param("age") String age, @Param("sex") String sex) {
+        return userInfoDao.updateById(userInfoId, userName, age, sex);
     }
 
 }

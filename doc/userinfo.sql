@@ -18,11 +18,11 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 -- Table structure for userinfo
 -- ----------------------------
-DROP TABLE IF EXISTS `userinfo`;
-CREATE TABLE `userinfo` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `userName` varchar(30) DEFAULT NULL,
-  `age` varchar(10) DEFAULT NULL,
-  `sex` varchar(10) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+DROP TABLE IF EXISTS `UserInfo`;
+CREATE TABLE `UserInfo` (
+  `userInfoId` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `userName`varchar(30) NOT NULL COMMENT '用户名',
+  `age` varchar(10) NOT NULL COMMENT '年龄',
+  `sex` varchar(10) NOT NULL COMMENT '性别',
+  PRIMARY KEY (`userInfoid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;

@@ -11,6 +11,7 @@ public class MybatisDemo1ApplicationTests {
 
     @Test
     public void contextLoads() {
+        System.out.println("hello world");
     }
 
 }

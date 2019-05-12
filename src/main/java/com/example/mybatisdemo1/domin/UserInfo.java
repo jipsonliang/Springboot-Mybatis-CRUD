@@ -5,18 +5,18 @@ package com.example.mybatisdemo1.domin;
  * create 2019-04-15-20:25
  */
 
-public class User {
-    public Long id;
+public class UserInfo {
+    public Long userInfoId;
     public String userName;
     public String age;
     public String sex;
 
-    public Long getId() {
-        return id;
+    public Long getUserInfoId() {
+        return userInfoId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUserInfoId(Long userInfoId) {
+        this.userInfoId = userInfoId;
     }
 
     public String getUserName() {
@@ -41,5 +41,15 @@ public class User {
 
     public void setSex(String sex) {
         this.sex = sex;
+    }
+
+    @Override
+    public String toString() {
+        return "UserInfo{" +
+                "userInfoId=" + userInfoId +
+                ", userName='" + userName + '\'' +
+                ", age=" + age +
+                ", sex=" + sex +
+                '}';
     }
 }
