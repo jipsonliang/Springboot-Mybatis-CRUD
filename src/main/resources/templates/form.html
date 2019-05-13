@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>update data</title>
+    <script type="text/javascript" src="jquery-3.4.1.min.js"></script>
+    <!--<script type="text/javascript">-->
+        <!--var params = {-->
+            <!--"userInfoId":$("#userInfoId").val(),-->
+            <!--"userName":$("#userName").val(),-->
+            <!--"age": $("#age").val(),-->
+            <!--"sex":$("#sex").val(),-->
+        <!--};-->
+        <!--$.ajax({-->
+            <!--type: "POST",-->
+            <!--url: "/form",-->
+            <!--data: params,-->
+            <!--dataType : "json",-->
+            <!--success: function(){-->
+                <!--alert("成功")-->
+            <!--}-->
+        <!--});-->
+    <!--</script>-->
+</head>
+<body>
+<form action="#" th:action="@{/form}" th:object="${form}" method="post">
+    <p>userInfoId: <input type="text" th:field="*{userInfoId}"></p>
+    <p>userName: <input type="text"  th:field="*{userName}"></p>
+    <p>age: <input type="text"  th:field="*{age}"></p>
+    <p>sex: <input type="text" th:field="*{sex}"></p>
+    <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+</form>
+<!--<form id="form" action="/add" method="get">-->
+    <!--<p>userInfoId: <input type="text" name="userInfoId" id="userInfoId"></p>-->
+    <!--<p>userName: <input type="text" name="userName" id="userName"></p>-->
+    <!--<p>age: <input type="text" name="age" id="age"></p>-->
+    <!--<p>sex: <input type="text" name="sex" id="sex"></p>-->
+    <!--<p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>-->
+<!--</form>-->
+</body>
+</html>

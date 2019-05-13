@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>springboot Mabatis crud</title>
+</head>
+<body>
+<h1>Hello Spring Boot!!!</h1>
+<p th:text="${hello}"></p>
+<div>
+    <p th:text="${say}"></p>
+</div>
+<p>SpringBoot显示图片</p>
+<p>需要在application.yml中添加  <br/>
+    spring:<br/>
+    mvc:<br/>
+    static-path-pattern: /images/** <br/>
+    resources:<br/>
+    static-locations:  file:F:\Study\smallprogram\mybatis-demo1\src\main\resources\static</p>
+<img src="/images/1.jpg" width="600" height="500"/>
+</body>
+</html>
