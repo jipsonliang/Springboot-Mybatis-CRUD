@@ -2,7 +2,7 @@ server:
   port: 8080
 spring:
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/student?serverTimezone=GMT%2B8
+    url: jdbc:mysql://127.0.0.1:3306/student?serverTimezone=GMT%2B8&allowMultiQueries=true
     username: root
     password: 123
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -10,10 +10,11 @@ spring:
   thymeleaf:
     cache: false #关闭缓存
     #prefix: classpath:/templates/
-#  mvc:
-#    static-path-pattern: /images/**
-#  resources:
-#    static-locations:  file:F:\Study\smallprogram\mybatis-demo1\src\main\resources\static
+  mvc:
+    static-path-pattern: /images/**
+  resources:
+    static-locations:  file:F:\Study\smallprogram\mybatis-demo1\src\main\resources\static
 
 mybatis:
   mapper-locations: classpath*:mapper/*.xml
+

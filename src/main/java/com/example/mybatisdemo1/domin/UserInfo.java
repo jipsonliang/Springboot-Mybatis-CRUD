@@ -1,5 +1,7 @@
 package com.example.mybatisdemo1.domin;
 
+import java.sql.Timestamp;
+
 /**
  * @author Jipson Liang
  * create 2019-04-15-20:25
@@ -8,8 +10,12 @@ package com.example.mybatisdemo1.domin;
 public class UserInfo {
     public Long userInfoId;
     public String userName;
-    public String age;
+    public Integer age;
     public String sex;
+    public Double salary; //java一定要用double，用float会在校验精度上更多消耗cpu等资源
+    public Timestamp regTime;
+    public Boolean completed;
+    public String remark;
 
     public Long getUserInfoId() {
         return userInfoId;
@@ -27,11 +33,11 @@ public class UserInfo {
         this.userName = userName;
     }
 
-    public String getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(String age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
@@ -43,6 +49,39 @@ public class UserInfo {
         this.sex = sex;
     }
 
+    public Double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Double salary) {
+        this.salary = salary;
+    }
+
+    public Timestamp getRegTime() {
+        return regTime;
+    }
+
+    public void setRegTime(Timestamp regTime) {
+        this.regTime = regTime;
+    }
+
+    public Boolean getCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(Boolean completed) {
+        this.completed = completed;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+
     @Override
     public String toString() {
         return "UserInfo{" +
@@ -50,6 +89,11 @@ public class UserInfo {
                 ", userName='" + userName + '\'' +
                 ", age=" + age +
                 ", sex=" + sex +
+                ", salary=" + salary +
+                ", regTime=" + regTime +
+                ", completed=" + completed +
+                ", remark=" + remark +
                 '}';
     }
+
 }

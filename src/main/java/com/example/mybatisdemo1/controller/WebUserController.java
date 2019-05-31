@@ -7,17 +7,19 @@ package com.example.mybatisdemo1.controller;
 
 import com.example.mybatisdemo1.domin.UserInfo;
 import com.example.mybatisdemo1.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/user") //每个控制类定义一个统一的链接，避免与其他控制类冲突  访问该类用：http://localhost:8080/api/user/xxx
 public class WebUserController {
-    @Autowired
+//    @Autowired
+    @Resource
     UserService userService;
 
     /**
@@ -70,6 +72,11 @@ public class WebUserController {
     public int delete(@PathVariable("userInfoId") Long userInfoId) {
         return userService.delete(userInfoId);
     }//测试方法 浏览器输入http://localhost:8080/delete/6
+
+    @RequestMapping(value="/updateById")
+    public int updateById(Long userInfoId, String userName, Integer age, String sex) {
+        return userService.updateById(userInfoId,userName,age,sex);
+    }//测试方法 浏览器输入http://localhost:8080/updateById?userInfoId=23&userName=n23&age=30&sex=男
 
 
 }

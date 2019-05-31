@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.mybatisdemo1.dao.UserInfoDao">
+    <!--查询-->
     <!--getAllUser分页查询注意，如果SELECT语句中有末尾的分号，在查询是会报错，需要将末尾的分号去掉-->
     <select id="getAllUser" resultType="com.example.mybatisdemo1.domin.UserInfo" >
         SELECT * FROM UserInfo
@@ -24,20 +25,155 @@
         </if>
     </select>
 
+    <!--按ID批量查询-->
+    <select id="batchSelect" resultType="com.example.mybatisdemo1.domin.UserInfo">
+        SELECT * FROM UserInfo where userInfoId in
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+
+    <!--插入-->
+    <!--这种insert语句不具有通用性，如果sex 不传入值，即使sex在mysql中有默认值，执行后sex也为null，不过mysql定义sex不能为空将不能为空的报错-->
+    <!--<insert id="insert" parameterType="com.example.mybatisdemo1.domin.UserInfo" keyColumn="userInfoId" keyProperty="userInfoId" useGeneratedKeys="true">-->
+        <!--insert into UserInfo (userName,age,sex) values (#{userName},#{age},#{sex})-->
+    <!--</insert>-->
+
+    <!--一种动态的insert语句,更加具有通用性-->
+    <sql id="userInfoColumns">
+        <trim suffixOverrides=",">
+            <if test="userName != null">userName,</if>
+            <if test="age != null">age,</if>
+            <if test="sex != null">sex,</if>
+            <if test="salary != null">salary,</if>
+            <if test="regTime != null">regTime,</if>
+            <if test="completed != null">completed,</if>
+            <if test="remark != null">remark</if>
+        </trim>
+    </sql>
+
+    <sql id="userInfoValues">
+        <trim suffixOverrides=",">
+            <if test="userName != null">#{userName},</if>
+            <if test="age != null">#{age},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="salary != null">#{salary},</if>
+            <if test="regTime != null">#{regTime},</if>
+            <if test="completed != null">#{completed},</if>
+            <if test="remark != null">#{remark}</if>
+        </trim>
+    </sql>
+
     <insert id="insert" parameterType="com.example.mybatisdemo1.domin.UserInfo" keyColumn="userInfoId" keyProperty="userInfoId" useGeneratedKeys="true">
-        insert into UserInfo (userName,age,sex) values (#{userName},#{age},#{sex})
+        insert into UserInfo(<include refid="userInfoColumns"/>)
+        values (<include refid="userInfoValues"/>)
     </insert>
 
-    <delete id="delete" parameterType="com.example.mybatisdemo1.domin.UserInfo">
-        delete from UserInfo where userInfoId = #{userInfoId}
-    </delete>
+    <!--批量插入-->
+    <sql id="userInfoColumnsList">
+        <trim suffixOverrides=",">
+            <if test="item.userName != null">userName,</if>
+            <if test="item.age != null">age,</if>
+            <if test="item.sex != null">sex,</if>
+            <if test="item.salary != null">salary,</if>
+            <if test="item.completed != null">completed,</if>
+            <if test="item.remark != null">remark</if>
+        </trim>
+    </sql>
+    <sql id="userInfoValuesList">
+        <trim suffixOverrides=",">
+            <if test="item.userName != null">#{item.userName},</if>
+            <if test="item.age != null">#{item.age},</if>
+            <if test="item.sex != null">#{item.sex},</if>
+            <if test="item.salary != null">#{item.salary},</if>
+            <if test="item.completed != null">#{item.completed},</if>
+            <if test="item.remark != null">#{item.remark}</if>
+        </trim>
+    </sql>
 
+    <!--测试批量插入成功，但是这种方式要求所有字段都具有值-->
+    <!--会构造出这样的语句insert into UserInfo(userName,age,sex,salary,completed,remar) VALUES(...),(...),(...)-->
+    <!--<insert id="batchInsert" parameterType="com.example.mybatisdemo1.domin.UserInfo" keyColumn="userInfoId" keyProperty="userInfoId" useGeneratedKeys="true">-->
+        <!--insert into UserInfo(userName,age,sex,salary,completed,remark) VALUES-->
+        <!--<foreach item="item" index="index" collection="list" separator=",">-->
+            <!--(<include refid="userInfoValuesList"/>)-->
+        <!--</foreach>-->
+    <!--</insert>-->
+
+    <!--测试动态批量插入成功,注意application.yml数据库设置要加上&allowMultiQueries=true,否者提示SQLSyntaxErrorException-->
+    <insert id="batchInsert" parameterType="com.example.mybatisdemo1.domin.UserInfo" keyColumn="userInfoId" keyProperty="userInfoId" useGeneratedKeys="true">
+
+        <foreach item="item" index="index" collection="list" separator=";">
+        insert into UserInfo(<include refid="userInfoColumnsList"/>)
+        VALUES(<include refid="userInfoValuesList"/>)
+        </foreach>
+
+    </insert>
+
+
+
+
+    <!--更新-->
+    <!--这种方式同样不具有灵活性，如果某个不能为空的字段不传入值，例如userName，将报错-->
+    <!--<update id="update" parameterType="com.example.mybatisdemo1.domin.UserInfo">-->
+        <!--update UserInfo-->
+        <!--set-->
+            <!--userInfoId=#{userInfoId},-->
+            <!--userName=#{userName},-->
+            <!--age=#{age},-->
+            <!--sex=#{sex},-->
+            <!--salary=#{salary},-->
+            <!--completed=#{completed},-->
+            <!--remark=#{remark}-->
+        <!--where userInfoId=#{userInfoId}-->
+    <!--</update>-->
+
+    <!--加入判断的动态update语句更具有灵活性-->
     <update id="update" parameterType="com.example.mybatisdemo1.domin.UserInfo">
-        update UserInfo set userInfoId=#{userInfoId},userName=#{userName},age=#{age},sex=#{sex} where userInfoId=#{userInfoId}
+        update UserInfo
+        set
+            <if test="userName != null">userName=#{userName},</if>
+            <if test="age != null">age=#{age},</if>
+            <if test="sex != null">sex=#{sex},</if>
+            <if test="salary != null">salary=#{salary},</if>
+            <if test="completed != null">completed=#{completed},</if>
+            <if test="remark != null">remark=#{remark}</if>
+        where userInfoId=#{userInfoId}
     </update>
 
     <update id="updateById" parameterType="com.example.mybatisdemo1.domin.UserInfo" >
         update UserInfo set userInfoId=#{userInfoId},userName=#{userName},age=#{age},sex=#{sex} where userInfoId=#{userInfoId}
     </update>
+
+    <!--动态批量更新，<set></set>相当于SET-->
+    <update id="batchUpdate" parameterType="com.example.mybatisdemo1.domin.UserInfo">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update UserInfo
+
+            <set>
+                <if test="item.userName != null">userName=#{item.userName},</if>
+                <if test="item.age != null">age=#{item.age},</if>
+                <if test="item.sex != null">sex=#{item.sex},</if>
+                <if test="item.salary != null">salary=#{item.salary},</if>
+                <if test="item.completed != null">completed=#{item.completed},</if>
+                <if test="item.remark != null">remark=#{item.remark}</if>
+            </set>
+            where userInfoId = #{item.userInfoId}
+        </foreach>
+    </update>
+
+    <!--删除-->
+    <delete id="delete" parameterType="com.example.mybatisdemo1.domin.UserInfo">
+        delete from UserInfo where userInfoId = #{userInfoId}
+    </delete>
+    <!--批量删除-->
+    <delete id="batchDelete" parameterType="com.example.mybatisdemo1.domin.UserInfo">
+        delete from UserInfo where userInfoId
+        in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+          #{item}
+        </foreach>
+    </delete>
 
 </mapper>
