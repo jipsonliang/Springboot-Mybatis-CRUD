@@ -1,6 +1,8 @@
 package com.example.mybatisdemo1.domin;
 
-import java.sql.Timestamp;
+import com.example.mybatisdemo1.enums.UserSexEnum;
+
+import java.sql.Date;
 
 /**
  * @author Jipson Liang
@@ -11,9 +13,9 @@ public class UserInfo {
     public Long userInfoId;
     public String userName;
     public Integer age;
-    public String sex;
+    public UserSexEnum sex;
     public Double salary; //java一定要用double，用float会在校验精度上更多消耗cpu等资源
-    public Timestamp regTime;
+    public Date regTime;
     public Boolean completed;
     public String remark;
 
@@ -41,11 +43,20 @@ public class UserInfo {
         this.age = age;
     }
 
-    public String getSex() {
+//    public String getSex() {
+//        return sex;
+//    }
+//
+//    public void setSex(String sex) {
+//        this.sex = sex;
+//    }
+
+
+    public UserSexEnum getSex() {
         return sex;
     }
 
-    public void setSex(String sex) {
+    public void setSex(UserSexEnum sex) {
         this.sex = sex;
     }
 
@@ -57,11 +68,11 @@ public class UserInfo {
         this.salary = salary;
     }
 
-    public Timestamp getRegTime() {
+    public Date getRegTime() {
         return regTime;
     }
 
-    public void setRegTime(Timestamp regTime) {
+    public void setRegTime(Date regTime) {
         this.regTime = regTime;
     }
 

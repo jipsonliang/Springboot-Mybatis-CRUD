@@ -1,6 +1,7 @@
 package com.example.mybatisdemo1;
 
 import com.example.mybatisdemo1.domin.UserInfo;
+import com.example.mybatisdemo1.enums.UserSexEnum;
 import com.example.mybatisdemo1.service.UserService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -9,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +30,7 @@ public class UserInfoMapperTest {
 //  测试查询
     @Test
     public void testQueryAll(){
-        //不分页查询
+        //非分页查询
         Object users = userService.getAllUser0();
         if (users == null ) {
             System.out.println("is null");
@@ -84,11 +87,16 @@ public class UserInfoMapperTest {
     public void testInsert(){
         //添加第一条数据
         UserInfo userInfo1 = new UserInfo();
-        userInfo1.setUserName("aa");
+        userInfo1.setUserName("aa11");
         userInfo1.setAge(11);
 //        userInfo1.setSex("男");
         userInfo1.setSalary(2570.50);
-//        userInfo1.setRegTime(2019/05/20 00:00:00);//timestamp数据如何插入？
+        //设置插入指定的时间，测试成功
+        try {
+            userInfo1.setRegTime(new java.sql.Date(new SimpleDateFormat("yyyy/MM/dd").parse("2019/05/20").getTime()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         userInfo1.setCompleted(Boolean.TRUE);
         userInfo1.setRemark("这是备注哦 用默认性别");
         int a = userService.insert(userInfo1);
@@ -98,7 +106,7 @@ public class UserInfoMapperTest {
         UserInfo userInfo2 = new UserInfo();
         userInfo2.setUserName("bb");
         userInfo2.setAge(22);
-        userInfo2.setSex("女");
+        userInfo2.setSex(UserSexEnum.SECRET);
 //        userInfo2.setSalary(3257.50);
         userInfo2.setCompleted(Boolean.FALSE);
         userInfo2.setRemark("这是备注哦 嗯 对的 用默认工资");
@@ -109,7 +117,7 @@ public class UserInfoMapperTest {
         UserInfo userInfo3 = new UserInfo();
         userInfo3.setUserName("cc");
         userInfo3.setAge(33);
-        userInfo3.setSex("男");
+        userInfo3.setSex(UserSexEnum.MAN);
         userInfo3.setSalary(4600.00);
 //        userInfo3.setCompleted(Boolean.FALSE);
         userInfo3.setRemark("这是备注哦 嗯 对的 用默认完成情况");
@@ -141,7 +149,7 @@ public class UserInfoMapperTest {
         UserInfo userInfo2 = new UserInfo();
         userInfo2.setUserName("bb");
         userInfo2.setAge(22);
-        userInfo2.setSex("女");
+        userInfo2.setSex(UserSexEnum.WOMAN);
 //        userInfo2.setSalary(3257.50);
         userInfo2.setCompleted(Boolean.FALSE);
         userInfo2.setRemark("测试动态批量插入 用默认工资");
@@ -151,7 +159,7 @@ public class UserInfoMapperTest {
         UserInfo userInfo3 = new UserInfo();
         userInfo3.setUserName("cc");
         userInfo3.setAge(33);
-        userInfo3.setSex("男");
+        userInfo3.setSex(UserSexEnum.MAN);
         userInfo3.setSalary(4600.00);
 //        userInfo3.setCompleted(Boolean.FALSE);
         userInfo3.setRemark("测试动态批量插入 用默认完成情况");
@@ -172,7 +180,7 @@ public class UserInfoMapperTest {
         System.out.println(userInfo.toString());
         //userInfo.setUserName("Liang");
         //userInfo.setAge(30);
-        userInfo.setSex("男");
+        userInfo.setSex(UserSexEnum.WOMAN);
         userInfo.setUserInfoId(2L);
         userInfo.setSalary(2000.00);
         userInfo.setCompleted(Boolean.TRUE);
@@ -188,13 +196,13 @@ public class UserInfoMapperTest {
 
         System.out.println(userInfo.toString());
         userInfo.setUserName("oo");
-        userInfo.setAge(27);
-        userInfo.setSex("男");
-        userInfo.setUserInfoId(5L);
-        int a = userService.updateById(userInfo.userInfoId, userInfo.userName, userInfo.age, userInfo.sex);
+        userInfo.setAge(1);
+        userInfo.setSex(UserSexEnum.MAN);
+        userInfo.setUserInfoId(1L);
+        int a = userService.updateById(userInfo.userInfoId, userInfo.userName, userInfo.age, userInfo.getSex());
         System.out.println("a: "+ a );
 
-    }//与testUpdate重复
+    }//与testUpdate重复， 测试ok
 
     // 测试批量更新
     @Test
@@ -214,7 +222,7 @@ public class UserInfoMapperTest {
         UserInfo userInfo2 = new UserInfo();
         userInfo2.setUserName("Liang5");
 //        userInfo2.setAge(30);
-        userInfo2.setSex("男");
+        userInfo2.setSex(UserSexEnum.MAN);
         userInfo2.setUserInfoId(5L);
         userInfo2.setSalary(2000.00);
         userInfo2.setCompleted(Boolean.TRUE);

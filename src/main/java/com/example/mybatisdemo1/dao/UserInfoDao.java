@@ -1,6 +1,7 @@
 package com.example.mybatisdemo1.dao;
 
 import com.example.mybatisdemo1.domin.UserInfo;
+import com.example.mybatisdemo1.enums.UserSexEnum;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ public interface UserInfoDao {
 
     //更新
     int update(UserInfo userInfo);
-    int updateById(Long userInfoId, String userName, Integer age, String sex);
+    int updateById(Long userInfoId, String userName, Integer age, UserSexEnum sex);//这里参数不加注解测试ok，UserService参数是加了注解的
     int batchUpdate(List<UserInfo> list);//批量更新
 
     //删除

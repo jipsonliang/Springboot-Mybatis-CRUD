@@ -1,6 +1,7 @@
 package com.example.mybatisdemo1.service;
 
 import com.example.mybatisdemo1.domin.UserInfo;
+import com.example.mybatisdemo1.enums.UserSexEnum;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public interface UserService {
     //更新
     int update(UserInfo userInfo);
     int updateById(@Param("userInfoId") Long userInfoId, @Param("userName") String userName,
-                    @Param("age") Integer age, @Param("sex") String sex);//要么传入对象，要么用@Param注解方式传入参数
+                    @Param("age") Integer age, @Param("sex") UserSexEnum sex);//要么传入对象，要么用@Param注解方式传入参数
     int batchUpdate(List<UserInfo> list);//批量更新
 
     //删除

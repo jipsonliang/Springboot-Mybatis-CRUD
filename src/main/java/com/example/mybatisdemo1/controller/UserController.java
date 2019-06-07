@@ -7,6 +7,7 @@ package com.example.mybatisdemo1.controller;
  */
 
 import com.example.mybatisdemo1.domin.UserInfo;
+import com.example.mybatisdemo1.enums.UserSexEnum;
 import com.example.mybatisdemo1.service.UserService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,7 +45,7 @@ public class UserController {
         userInfo.setUserInfoId(userInfoId);
         userInfo.setUserName(userName);
         userInfo.setAge(age);
-        userInfo.setSex(sex);
+        userInfo.setSex(UserSexEnum.MAN);
         return userService.insert(userInfo);
 
     }
@@ -62,9 +63,8 @@ public class UserController {
 //        return userService.updateById(userInfoId, userName, age, sex);
 //    }
     @PostMapping(value = "/updateById")
-    public int updateById(Long userInfoId, String userName,Integer age,String sex){
-        return userService.updateById(userInfoId,userName,age,sex);
-
+    public int updateById(Long userInfoId, String userName,Integer age,UserSexEnum sex){
+        return userService.updateById(userInfoId,userName,age, sex);
     }
 
 }

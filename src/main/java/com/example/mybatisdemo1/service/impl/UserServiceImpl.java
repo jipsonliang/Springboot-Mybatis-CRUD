@@ -2,6 +2,7 @@ package com.example.mybatisdemo1.service.impl;
 
 import com.example.mybatisdemo1.dao.UserInfoDao;
 import com.example.mybatisdemo1.domin.UserInfo;
+import com.example.mybatisdemo1.enums.UserSexEnum;
 import com.example.mybatisdemo1.service.UserService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -77,7 +78,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int updateById(Long userInfoId, String userName, Integer age, String sex) {
+    public int updateById(Long userInfoId, String userName, Integer age, UserSexEnum sex) {
         return userInfoDao.updateById(userInfoId, userName, age, sex);
     }
 
