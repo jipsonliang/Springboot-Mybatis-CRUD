@@ -45,7 +45,7 @@ public class UserController {
         userInfo.setUserInfoId(userInfoId);
         userInfo.setUserName(userName);
         userInfo.setAge(age);
-        userInfo.setSex(UserSexEnum.MAN);
+        userInfo.setSex(UserSexEnum.MAN.toString());
         return userService.insert(userInfo);
 
     }
@@ -63,7 +63,7 @@ public class UserController {
 //        return userService.updateById(userInfoId, userName, age, sex);
 //    }
     @PostMapping(value = "/updateById")
-    public int updateById(Long userInfoId, String userName,Integer age,UserSexEnum sex){
+    public int updateById(Long userInfoId, String userName,Integer age,String sex){
         return userService.updateById(userInfoId,userName,age, sex);
     }
 

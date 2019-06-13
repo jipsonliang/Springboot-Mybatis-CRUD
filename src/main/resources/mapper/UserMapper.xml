@@ -26,6 +26,8 @@
     </select>
 
     <!--按ID批量查询-->
+
+    <!--批量查询，返回list-->
     <select id="batchSelect" resultType="com.example.mybatisdemo1.domin.UserInfo">
         SELECT * FROM UserInfo where userInfoId in
         <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
@@ -33,6 +35,23 @@
         </foreach>
     </select>
 
+    <!--批量查询，返回Map键值对数据-->
+    <select id="batchSelectReturnMap" resultType="java.util.HashMap">
+        SELECT * FROM UserInfo where userInfoId in
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--like模糊查询  LIKE语句要连接String类型数据-->
+    <select id="likeSelect" resultType="com.example.mybatisdemo1.domin.UserInfo">
+        SELECT * FROM UserInfo
+        <where>
+            <if test="userName != null and userName != ''">
+                AND userName LIKE "%"#{userName}"%"
+            </if>
+        </where>
+    </select>
 
     <!--插入-->
     <!--这种insert语句不具有通用性，如果sex 不传入值，即使sex在mysql中有默认值，执行后sex也为null，不过mysql定义sex不能为空将不能为空的报错-->
@@ -146,7 +165,8 @@
         update UserInfo set userInfoId=#{userInfoId},userName=#{userName},age=#{age},sex=#{sex} where userInfoId=#{userInfoId}
     </update>
 
-    <!--动态批量更新，<set></set>相当于SET-->
+    <!--动态伪批量更新，<set></set>相当于SET-->
+    <!--为何是伪批量，因为下列语句中还是逐条更新sql语句地执行，这种方式每次都会连接数据库，然后更新，再释放连接资源，效率低-->
     <update id="batchUpdate" parameterType="com.example.mybatisdemo1.domin.UserInfo">
         <foreach collection="list" item="item" index="index" open="" close="" separator=";">
             update UserInfo
@@ -160,6 +180,69 @@
                 <if test="item.remark != null">remark=#{item.remark}</if>
             </set>
             where userInfoId = #{item.userInfoId}
+        </foreach>
+    </update>
+
+    <!--真正的批量更新-->
+
+    <!--单一字段(age)的批量更新-->
+    <update id="batchUpdateOneField" parameterType="com.example.mybatisdemo1.domin.UserInfo">
+        update UserInfo
+        set age=
+        <foreach collection="list" item="item" index="index"
+                 separator=" " open="case" close="end">
+            when userInfoId=#{item.userInfoId} then #{item.age}
+        </foreach>
+        where userInfoId in
+        <foreach collection="list" index="index" item="item"
+                 separator="," open="(" close=")">
+            #{item.userInfoId}
+        </foreach>
+    </update>
+
+    <!--多个字段的批量更新-->
+    <update id="batchUpdateMultiField" parameterType="com.example.mybatisdemo1.domin.UserInfo">
+        update UserInfo
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="userName = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    <if test="item.userName != null"> when userInfoId=#{item.userInfoId} then #{item.userName}</if>
+                </foreach>
+            </trim>
+
+            <trim prefix="age =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    <if test="item.age != null">when userInfoId=#{item.userInfoId} then #{item.age}</if>
+                </foreach>
+            </trim>
+
+            <trim prefix="sex =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    <if test="item.sex != null">when userInfoId=#{item.userInfoId} then #{item.sex}</if>
+                </foreach>
+            </trim>
+
+            <trim prefix="salary =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    <if test="item.salary != null">when userInfoId=#{item.userInfoId} then #{item.salary}</if>
+                </foreach>
+            </trim>
+
+            <trim prefix="completed =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    <if test="item.completed != null">when userInfoId=#{item.userInfoId} then #{item.completed}</if>
+                </foreach>
+            </trim>
+
+            <trim prefix="remark =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    <if test="item.remark != null">when userInfoId=#{item.userInfoId} then #{item.remark}</if>
+                </foreach>
+            </trim>
+        </trim>
+        where userInfoId in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.userInfoId}
         </foreach>
     </update>
 

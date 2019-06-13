@@ -6,7 +6,6 @@ package com.example.mybatisdemo1.controller;
  */
 
 import com.example.mybatisdemo1.domin.UserInfo;
-import com.example.mybatisdemo1.enums.UserSexEnum;
 import com.example.mybatisdemo1.service.UserService;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -75,7 +74,7 @@ public class WebUserController {
     }//测试方法 浏览器输入http://localhost:8080/delete/6
 
     @RequestMapping(value="/updateById")
-    public int updateById(Long userInfoId, String userName, Integer age, UserSexEnum sex) {
+    public int updateById(Long userInfoId, String userName, Integer age, String sex) {
         return userService.updateById(userInfoId,userName,age,sex);
     }//测试方法 浏览器输入http://localhost:8080/updateById?userInfoId=23&userName=n23&age=30&sex=男
 

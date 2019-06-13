@@ -1,7 +1,6 @@
 package com.example.mybatisdemo1.dao;
 
 import com.example.mybatisdemo1.domin.UserInfo;
-import com.example.mybatisdemo1.enums.UserSexEnum;
 
 import java.util.List;
 
@@ -18,6 +17,8 @@ public interface UserInfoDao {
     UserInfo getOneUser(Long userInfoId);
     List<UserInfo> getUserByDynamicCondition(UserInfo userInfo);//多条件查询之动态SQL
     List<UserInfo> batchSelect(List<Long> list);//批量查询
+    List<UserInfo> likeSelect(UserInfo userInfo);//like模糊查询
+
 
     //插入
     int insert(UserInfo userInfo);
@@ -25,8 +26,10 @@ public interface UserInfoDao {
 
     //更新
     int update(UserInfo userInfo);
-    int updateById(Long userInfoId, String userName, Integer age, UserSexEnum sex);//这里参数不加注解测试ok，UserService参数是加了注解的
-    int batchUpdate(List<UserInfo> list);//批量更新
+    int updateById(Long userInfoId, String userName, Integer age, String sex);//这里参数不加注解测试ok，UserService参数是加了注解的
+    int batchUpdate(List<UserInfo> list);//伪批量更新（逐条更新）
+    int batchUpdateOneField(List<UserInfo> list);//批量更新单一字段
+    int batchUpdateMultiField(List<UserInfo> list);//批量更新多个字段
 
     //删除
     int delete(Long userInfoId);//去掉Long userInfoId前面的@Param("userInfoId")，测试ok
