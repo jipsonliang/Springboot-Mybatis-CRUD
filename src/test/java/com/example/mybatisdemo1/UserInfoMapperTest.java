@@ -92,16 +92,14 @@ public class UserInfoMapperTest {
         userList.add(3L);
         System.out.println(userList);
 
-        List<Map<Long, UserInfo>> list = userService.batchSelectReturnMap(userList);
-        for (Map<Long, UserInfo> userMap : list) {
-            //打印userMap集合对象
-            System.out.println(userMap);
-
-            //遍历输出userMap集合，输出形式为 key:value
-            for (Long key:userMap.keySet()) {
-                System.out.println(key + ":" + userMap.get(key));
-            }
+        Map<Long, UserInfo> userMap = userService.batchSelectReturnMap(userList);
+        //打印userMap集合对象
+        System.out.println(userMap);
+        //遍历输出查询结果userMap集合，输出形式为 key:value
+        for (Long key:userMap.keySet()) {
+            System.out.println(key + ":" + userMap.get(key));
         }
+
     }//批量查询并返回Map类型数据，测试ok
 
     @Test
@@ -135,7 +133,7 @@ public class UserInfoMapperTest {
         }
         userInfo1.setCompleted(Boolean.TRUE);
         userInfo1.setRemark("这是备注哦 用默认性别");
-        int a = userService.insert(userInfo1);
+        Integer a = userService.insert(userInfo1);
         System.out.println("a: " + a);
 
         //添加第二条数据
@@ -146,7 +144,7 @@ public class UserInfoMapperTest {
 //        userInfo2.setSalary(3257.50);
         userInfo2.setCompleted(Boolean.FALSE);
         userInfo2.setRemark("这是备注哦 嗯 对的 用默认工资");
-        int b = userService.insert(userInfo2);
+        Integer b = userService.insert(userInfo2);
         System.out.println("b: " + b);
 
         //添加第三条数据
@@ -157,10 +155,10 @@ public class UserInfoMapperTest {
         userInfo3.setSalary(4600.00);
 //        userInfo3.setCompleted(Boolean.FALSE);
         userInfo3.setRemark("这是备注哦 嗯 对的 用默认完成情况");
-        int c = userService.insert(userInfo3);
+        Integer c = userService.insert(userInfo3);
         System.out.println("c: " + c);
 
-        int d = a + b + c;
+        int d = a + b + c;//Integer自动拆箱变成int
         //测试是否三次都成功
         Assert.assertEquals(3, d);
     }//测试ok
@@ -202,7 +200,8 @@ public class UserInfoMapperTest {
         list.add(userInfo3);
 
         System.out.println(list);
-        userService.batchInsert(list);
+        Integer result = userService.batchInsert(list);
+        System.out.println("批量插入返回值："+ result);
 
 
     }//测试动态批量插入成功，注意application.yml数据库设置要加上&allowMultiQueries=true
@@ -221,7 +220,7 @@ public class UserInfoMapperTest {
         userInfo.setSalary(2000.00);
         userInfo.setCompleted(Boolean.TRUE);
         userInfo.setRemark("更新的备注");
-        int a = userService.update(userInfo);
+        Integer a = userService.update(userInfo);
         // 查看返回值
         System.out.println("a: "+ a );
     }//测试ok
@@ -235,7 +234,7 @@ public class UserInfoMapperTest {
         userInfo.setAge(1);
         userInfo.setSex(UserSexEnum.MAN.toString());
         userInfo.setUserInfoId(1L);
-        int a = userService.updateById(userInfo.userInfoId, userInfo.userName, userInfo.age, userInfo.getSex());
+        Integer a = userService.updateById(userInfo.userInfoId, userInfo.userName, userInfo.age, userInfo.getSex());
         System.out.println("a: "+ a );
 
     }//与testUpdate重复， 测试ok
@@ -265,7 +264,7 @@ public class UserInfoMapperTest {
         userInfo2.setRemark("批量更新的备注，用原来的年龄");
         list.add(userInfo2);
 
-        int a = userService.batchUpdate(list);
+        Integer a = userService.batchUpdate(list);
         // 查看返回值
         System.out.println("a: "+ a );
     }//批量更新成功，注意application.yml数据库设置要加上&allowMultiQueries=true
@@ -289,7 +288,7 @@ public class UserInfoMapperTest {
         userInfo3.setUserInfoId(3L);
         list.add(userInfo3);
 
-        int a = userService.batchUpdateOneField(list);
+        Integer a = userService.batchUpdateOneField(list);
         // 查看返回值
         System.out.println("a: "+ a );
     }//测试成功
@@ -325,9 +324,9 @@ public class UserInfoMapperTest {
         // 而age在mysql定义时不能为空，所以报错: Column 'age' cannot be null
 
         Long start = System.currentTimeMillis();
-        int a = userService.batchUpdateMultiField(list);
+        Integer a = userService.batchUpdateMultiField(list);
         //输出更新消耗的时间
-        System.out.println("耗时 ： "+(System.currentTimeMillis() - start));
+        System.out.println("耗时(ms) ： "+(System.currentTimeMillis() - start));
 
         // 查看成功更新的数量
         System.out.println("成功更新: "+ a );
@@ -337,7 +336,7 @@ public class UserInfoMapperTest {
     // 测试删除
     @Test
     public void testDelete(){
-        int a = userService.delete(8L);
+        Integer a = userService.delete(8L);
         System.out.println(a);
     }
 
@@ -350,7 +349,7 @@ public class UserInfoMapperTest {
         list.add(6L);
         System.out.println(list);
 
-        int a = userService.batchDelete(list);
+        Integer a = userService.batchDelete(list);
         System.out.println(a);//打印影响的条数，这里输出3
 
     }//批量删除，测试ok

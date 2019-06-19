@@ -21,19 +21,19 @@ public interface UserInfoDao {
 
 
     //插入
-    int insert(UserInfo userInfo);
-    int batchInsert(List<UserInfo> list);//批量插入
+    Integer insert(UserInfo userInfo);
+    Integer batchInsert(List<UserInfo> list);//批量插入
 
     //更新
-    int update(UserInfo userInfo);
-    int updateById(Long userInfoId, String userName, Integer age, String sex);//这里参数不加注解测试ok，UserService参数是加了注解的
-    int batchUpdate(List<UserInfo> list);//伪批量更新（逐条更新）
-    int batchUpdateOneField(List<UserInfo> list);//批量更新单一字段
-    int batchUpdateMultiField(List<UserInfo> list);//批量更新多个字段
+    Integer update(UserInfo userInfo);
+    Integer updateById(Long userInfoId, String userName, Integer age, String sex);//这里参数不加注解测试ok，UserService参数是加了注解的
+    Integer batchUpdate(List<UserInfo> list);//伪批量更新（逐条更新）
+    Integer batchUpdateOneField(List<UserInfo> list);//批量更新单一字段
+    Integer batchUpdateMultiField(List<UserInfo> list);//批量更新多个字段
 
     //删除
-    int delete(Long userInfoId);//去掉Long userInfoId前面的@Param("userInfoId")，测试ok
-    int batchDelete(List<Long> userInfoId);//批量删除
+    Integer delete(Long userInfoId);//去掉Long userInfoId前面的@Param("userInfoId")，测试ok
+    Integer batchDelete(List<Long> userInfoId);//批量删除
 
 
 

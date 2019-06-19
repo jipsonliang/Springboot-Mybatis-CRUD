@@ -8,7 +8,6 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,22 +62,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Map<Long, UserInfo>> batchSelectReturnMap(List<Long> list) {
+    public Map<Long, UserInfo> batchSelectReturnMap(List<Long> list) {
         //批量查询并返回List<Map>思路：用原来的（batchSelect）批量查询结果为List<UserInfo>类型数据，
-        // 在service实现类里构造出需要的返回值List<Map<Long, UserInfo>>
+        // 在service实现类里构造出需要的所需返回值类型Map<Long, UserInfo>
         //List<UserInfo>中的UserInfo作为value，UserInfo对象中的UserInfoId作为key
-        //有key和value之后，就可以构造出map， 最后将map再添加到mapList中
+        //有key和value之后，就可以构造出map
 
-        List<Map<Long, UserInfo>> mapList =new ArrayList();
         Map<Long, UserInfo> map = new HashMap();
         List<UserInfo> batchSelectResult = userInfoDao.batchSelect(list);
         for (UserInfo value : batchSelectResult) {
             Long key = value.getUserInfoId();
             map.put(key, value);
         }
-        mapList.add(map);
 
-        return mapList;
+        return map;
     }
 
     @Override
@@ -88,54 +85,54 @@ public class UserServiceImpl implements UserService {
 
     //插入
     @Override
-    public int insert(UserInfo userInfo) {
+    public Integer insert(UserInfo userInfo) {
         return userInfoDao.insert(userInfo);
     }
 
     @Override
-    public int batchInsert(List<UserInfo> list) {
+    public Integer batchInsert(List<UserInfo> list) {
         return userInfoDao.batchInsert(list);
     }
 
     //更新
     @Override
-    public int update(UserInfo userInfo) {
+    public Integer update(UserInfo userInfo) {
         return userInfoDao.update(userInfo);
     }
 
     @Override
-    public int updateById(Long userInfoId, String userName, Integer age, String sex) {
+    public Integer updateById(Long userInfoId, String userName, Integer age, String sex) {
         return userInfoDao.updateById(userInfoId, userName, age, sex);
     }
 
     @Override
-    public int batchUpdate(List<UserInfo> list) {
+    public Integer batchUpdate(List<UserInfo> list) {
         return userInfoDao.batchUpdate(list);
     }
     //    @Override
-//    public int updateById(@Param("userInfoId") Long userInfoId, @Param("userName") String userName, @Param("age") String age, @Param("sex") String sex) {
+//    public Integer updateById(@Param("userInfoId") Long userInfoId, @Param("userName") String userName, @Param("age") String age, @Param("sex") String sex) {
 //        return userInfoDao.updateById(userInfoId, userName, age, sex);
 //    }//@Param("userInfoId")为多余注解，不需要
 
 
     @Override
-    public int batchUpdateOneField(List<UserInfo> list) {
+    public Integer batchUpdateOneField(List<UserInfo> list) {
         return userInfoDao.batchUpdateOneField(list);
     }
 
     @Override
-    public int batchUpdateMultiField(List<UserInfo> list) {
+    public Integer batchUpdateMultiField(List<UserInfo> list) {
         return userInfoDao.batchUpdateMultiField(list);
     }
 
     //删除
     @Override
-    public int delete(Long userInfoId) {
+    public Integer delete(Long userInfoId) {
         return userInfoDao.delete(userInfoId);
     }
 
     @Override
-    public int batchDelete(List<Long> userInfoId) {
+    public Integer batchDelete(List<Long> userInfoId) {
         return userInfoDao.batchDelete(userInfoId);
     }
 }
