@@ -24,7 +24,7 @@ public class WebUserController {
 
     /**
      * description： 设置使用分页
-     * Usage: http://localhost:8080/getAllUser22?page=2 或 http://localhost:8080/getAllUser22?page=2&size=5
+     * Usage: http://localhost:8080/api/user/getAllUser22?page=2 或 http://localhost:8080/api/user/getAllUser22?page=2&size=5
      * @param page
      * @param size
      * @return
@@ -39,7 +39,7 @@ public class WebUserController {
     @RequestMapping("/getOneUser")
     public UserInfo getOneUser(Long userInfoId){
         return userService.getOneUser(userInfoId);
-    }//测试方法 浏览器输入http://localhost:8080/getOneUser?userInfoId=4
+    }//测试方法 浏览器输入http://localhost:8080/api/user/getOneUser?userInfoId=4
 
     @RequestMapping("/getUserByDynamicCondition")
     public List<UserInfo> getUserByDynamicCondition(UserInfo userInfo){

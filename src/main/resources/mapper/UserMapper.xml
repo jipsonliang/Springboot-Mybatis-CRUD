@@ -151,13 +151,14 @@
     <!--加入判断的动态update语句更具有灵活性-->
     <update id="update" parameterType="com.example.mybatisdemo1.domin.UserInfo">
         update UserInfo
-        set
+        <trim prefix="set" suffixOverrides=",">
             <if test="userName != null">userName=#{userName},</if>
             <if test="age != null">age=#{age},</if>
             <if test="sex != null">sex=#{sex},</if>
             <if test="salary != null">salary=#{salary},</if>
             <if test="completed != null">completed=#{completed},</if>
-            <if test="remark != null">remark=#{remark}</if>
+            <if test="remark != null">remark=#{remark},</if>
+        </trim>
         where userInfoId=#{userInfoId}
     </update>
 

@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS `UserInfo`;
 CREATE TABLE `UserInfo` (
-  `userInfoId` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `articleId` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `userName`varchar(30) NOT NULL COMMENT '用户名',
   `age` int(10) NOT NULL COMMENT '年龄',
   `sex` varchar(10) DEFAULT 'SECRET' COMMENT '性别',
